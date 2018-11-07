@@ -38,6 +38,20 @@ public class HairSalonAdapter extends RecyclerView.Adapter<HairSalonAdapter.Hair
         notifyDataSetChanged();
     }
 
+    public void addSalon(HairSalon hairSalon){
+        salons.add(hairSalon);
+        notifyDataSetChanged();
+    }
+    
+    public void removeSalon(HairSalon hairSalon){
+        for (int i = 0; i < salons.size(); i++) {
+            if(salons.get(i).equals(hairSalon)){
+                salons.remove(i);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     class HairSalonHolder extends RecyclerView.ViewHolder {
        private TextView name;
 

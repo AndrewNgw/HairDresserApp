@@ -12,10 +12,12 @@ public class HairSalonViewModel extends AndroidViewModel {
 
     private HairSalonRepository repository;
     private LiveData<List<HairSalon>> salons;
+    private HairSalonAdapter adapter;
 
     public HairSalonViewModel(@NonNull Application application) {
         super(application);
-        repository = new HairSalonRepository(application);
+        adapter = new HairSalonAdapter();
+        repository = new HairSalonRepository(application, adapter);
         salons = repository.getSalons();
     }
 
@@ -33,5 +35,9 @@ public class HairSalonViewModel extends AndroidViewModel {
 
     public LiveData<List<HairSalon>> getSalons(){
         return salons;
+    }
+
+    public HairSalonAdapter getAdapter(){
+        return adapter;
     }
 }

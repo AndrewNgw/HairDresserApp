@@ -9,12 +9,14 @@ import androidx.lifecycle.LiveData;
 
 public class HairSalonRepository {
 
-    private IHairSalonDAO hairSalonDAO;
+    //private IHairSalonDAO hairSalonDAO;
     private LiveData<List<HairSalon>> salons;
+    private IHairSalonDAO hairSalonDAO;
 
-    public HairSalonRepository(Application application){
-        HairSalonDatabase database = HairSalonDatabase.getInstance(application);
-        hairSalonDAO = database.hairSalonDAO();
+    public HairSalonRepository(Application application, HairSalonAdapter adapter){
+        //HairSalonDatabase database = HairSalonDatabase.getInstance(application);
+        //hairSalonDAO = database.hairSalonDAO();
+        hairSalonDAO = new HairSalonDAO(adapter);
         salons = hairSalonDAO.getAllHairSalons();
     }
 
