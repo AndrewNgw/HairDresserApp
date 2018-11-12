@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Hair Dresser</string>
+    <string name="button_client">Client</string>
+    <string name="button_salon">Salon</string>
+    <string name="title">Look The Look</string>
+    <string name="description">pic of comb</string>
+
 </resources>
