@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void createSalon(View v)
     {
-        startActivity(new Intent(this,HairSalon.class));
+        startActivity(new Intent(this,NewSalonActivity.class));
     }
 
 
