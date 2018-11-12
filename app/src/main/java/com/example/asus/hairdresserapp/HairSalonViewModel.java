@@ -16,7 +16,7 @@ public class HairSalonViewModel extends AndroidViewModel {
 
     public HairSalonViewModel(@NonNull Application application) {
         super(application);
-        adapter = new HairSalonAdapter();
+        adapter = new HairSalonAdapter(application.getApplicationContext());
         repository = new HairSalonRepository(application, adapter);
         salons = repository.getSalons();
     }

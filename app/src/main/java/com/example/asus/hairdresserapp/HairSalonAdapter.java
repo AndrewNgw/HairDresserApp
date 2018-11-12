@@ -1,19 +1,29 @@
 package com.example.asus.hairdresserapp;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HairSalonAdapter extends RecyclerView.Adapter<HairSalonAdapter.HairSalonHolder> {
 
     private List<HairSalon> salons = new ArrayList<>();
+    private Context context;
+
+    public HairSalonAdapter(Context context){
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -23,9 +33,19 @@ public class HairSalonAdapter extends RecyclerView.Adapter<HairSalonAdapter.Hair
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HairSalonHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HairSalonHolder holder, final int position) {
         HairSalon currentSalon = salons.get(position);
         holder.name.setText(currentSalon.getName());
+
+        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HairSalon salon = salons.get(position);
+                Intent intent = new Intent(context, HairSalonInfo.class);
+                intent.putExtra("salon", salon);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -54,10 +74,12 @@ public class HairSalonAdapter extends RecyclerView.Adapter<HairSalonAdapter.Hair
 
     class HairSalonHolder extends RecyclerView.ViewHolder {
        private TextView name;
+       private CardView itemLayout;
 
         public HairSalonHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.hair_salon_name);
+            itemLayout = itemView.findViewById(R.id.itemLayout);
         }
     }
 }

@@ -1,12 +1,13 @@
 package com.example.asus.hairdresserapp;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 //@Entity(tableName = "hairSalon_table")
-public class HairSalon {
+public class HairSalon implements Serializable {
 /*
     @PrimaryKey(autoGenerate = true)
     private int id;*/
