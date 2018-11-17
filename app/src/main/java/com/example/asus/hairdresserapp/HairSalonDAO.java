@@ -18,7 +18,6 @@ public class HairSalonDAO implements IHairSalonDAO{
     private DatabaseReference mHairSalonsDtabaseReference;
     private ChildEventListener mChildEventListener;
 
-
     public HairSalonDAO(final HairSalonAdapter adapter){
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mHairSalonsDtabaseReference = mFirebaseDatabase.getReference().child("salons");
@@ -55,6 +54,9 @@ public class HairSalonDAO implements IHairSalonDAO{
         mHairSalonsDtabaseReference.addChildEventListener(mChildEventListener);
     }
 
+    public FirebaseDatabase getFirebaseInstance(){
+        return mFirebaseDatabase;
+    }
 
     @Override
     public void insert(HairSalon hairSalon) {

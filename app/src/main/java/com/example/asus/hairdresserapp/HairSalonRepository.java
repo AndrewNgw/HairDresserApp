@@ -3,13 +3,14 @@ package com.example.asus.hairdresserapp;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
 
 public class HairSalonRepository {
 
-    //private IHairSalonDAO hairSalonDAO;
     private LiveData<List<HairSalon>> salons;
     private IHairSalonDAO hairSalonDAO;
 
