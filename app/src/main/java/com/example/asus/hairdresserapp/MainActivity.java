@@ -1,7 +1,10 @@
 package com.example.asus.hairdresserapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,7 +17,9 @@ import java.util.Arrays;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,10 +28,16 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthlistener;
     private static final int RC_SIGN_IN = 1;
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         hairSalonViewModel = ViewModelProviders.of(this).get(HairSalonViewModel.class);
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -49,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean switchPref = sharedPref.getBoolean
+                (SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+
     }
 
     @Override
@@ -86,5 +103,31 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOut(){
         AuthUI.getInstance().signOut(this);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.action_settings:
+                // user chose the settings item, show app settings UI
+                Intent intent = new Intent(this,SettingsActivity.class);
+                startActivity(intent);
+
+            case R.id.action_favorite:
+                // user chose the favorite item, mark current activity as favorite
+                return true;
+
+            default:
+                // if we got here the user's action was not recognized
+                // we let the super class handle it
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

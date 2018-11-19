@@ -18,7 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new BlankFragment()).commit();
+                .replace(android.R.id.content, new SettingsFragment()).commit();
 
         // for the settings
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
