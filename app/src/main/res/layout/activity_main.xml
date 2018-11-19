@@ -33,18 +33,18 @@
         android:id="@+id/button_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="7dp"
         android:layout_marginBottom="8dp"
+        android:onClick="openSalons"
         android:text="@string/button_client"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_1"
-        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.785"
-        android:onClick="openSalons"/>
+        app:layout_constraintVertical_bias="0.785" />
 
     <TextView
         android:id="@+id/textView2"

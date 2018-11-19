@@ -2,6 +2,8 @@ package com.example.asus.hairdresserapp;
 
 import android.app.Application;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;

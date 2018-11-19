@@ -1,39 +1,84 @@
 package com.example.asus.hairdresserapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.preference.PreferenceManager;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.auth.api.Auth;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView text;
-    private Button buttonClient;
-    private Button buttonSalon;
-    private Toolbar toolbar;
+    private HairSalonViewModel hairSalonViewModel;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthlistener;
+    private static final int RC_SIGN_IN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        text = findViewById(R.id.textView2);
+        hairSalonViewModel = ViewModelProviders.of(this).get(HairSalonViewModel.class);
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
-        buttonClient = findViewById(R.id.button_1);
-        buttonSalon = findViewById(R.id.button_2);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // fcode below ensures the settings are properly intialized with there default values, the
-        // setdefaultvalues() takes 3 arguements
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        mAuthlistener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
 
+                }
+                else{
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder().setIsSmartLockEnabled(false)
+                                    .setAvailableProviders(Arrays.asList(
+                                            new AuthUI.IdpConfig.EmailBuilder().build()))
+                                    .build(),
+                            RC_SIGN_IN);
+                }
+            }
+        };
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, "You are logged in!", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                finish();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mFirebaseAuth.addAuthStateListener(mAuthlistener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mFirebaseAuth.removeAuthStateListener(mAuthlistener);
     }
 
     public void openSalons(View v){
@@ -45,32 +90,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this,NewSalonActivity.class));
     }
 
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
-        return super.onCreateOptionsMenu(menu);
+    public void logOut(){
+        AuthUI.getInstance().signOut(this);
     }
-
-
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-      switch (item.getItemId())
-      {
-          case R.id.action_settings:
-              // show the App settings UI
-              Intent intent = new Intent(this, SettingsActivity.class);
-              startActivity(intent);
-              return true;
-
-          case R.id.action_favorite:
-              // User chose "favorite" action, mark the current item as a favorite
-              return true;
-
-          default:
-              //if we got here then the user's action was not recognized
-              //Invoke the super class to handle it
-              return super.onOptionsItemSelected(item);
-      }
-    }
-
 }
