@@ -3,8 +3,6 @@ package com.example.asus.hairdresserapp;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -22,6 +20,7 @@ public class HairSalonRepository {
     }
 
     public void insert(HairSalon hairSalon){
+
         new InsertHairSalonAsynkTask(hairSalonDAO).execute(hairSalon);
     }
 
